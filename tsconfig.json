@@ -7,8 +7,10 @@
         "esModuleInterop": true,
         "lib": [
             "dom",
-            "es2015"
+            "es2015",
+            "es2020"
         ],
-        "jsx": "react-jsx"
+        "jsx": "react-jsx",
+        "typeRoots": ["./node_modules/@types", "./src/types"]
     }
 }

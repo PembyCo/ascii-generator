@@ -120,12 +120,26 @@ const App: React.FC = () => {
   const generateAscii = useCallback(async (text: string) => {
     setLoading(true);
     try {
-      const figlet = (await import("https://cdn.skypack.dev/figlet")).default;
+      // Step 1: Import figlet
+      const figletModule = await import("https://cdn.skypack.dev/figlet") as any;
+      const figlet = figletModule.default;
+      
+      // Step 2: Import the Standard font
+      const standardFontModule = await import("https://cdn.skypack.dev/figlet/importable-fonts/Standard.js") as any;
+      const standardFont = standardFontModule.default;
+      
+      // Step 3: Parse the font
+      figlet.parseFont('Standard', standardFont);
+      
+      // Step 4: Generate the ASCII art
       figlet.text(
         text,
-        { font: "Standard" },
+        { font: 'Standard' },
         (err: Error | null, data?: string) => {
-          if (err) throw err;
+          if (err) {
+            console.error("Figlet error:", err);
+            throw err;
+          }
           setAscii(data || null);
           setLoading(false);
         }
